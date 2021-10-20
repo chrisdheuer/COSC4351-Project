@@ -76,15 +76,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'Reservations-DB',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': 'mongodb+srv://guest:U6RjijCQmfcZaFXU@cluster0.pw0kf.mongodb.net/Reservations-DB?retryWrites=true&w=majority',
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
+# Custom user model
+
+AUTH_USER_MODEL = 'reservations.RegisteredUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
