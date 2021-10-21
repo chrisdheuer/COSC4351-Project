@@ -1,7 +1,7 @@
 # COSC4351-Project
 **Due December 3, 2021**
 
-#### Description: 
+### Description: 
 A restaurant chain has reached out to your team to build a reservation system. 
 
 Here are the details:
@@ -16,3 +16,8 @@ Here are the details:
     - Name, mailing address, billing address (checkbox if same as mailing address), Preferred Diner # (system generated), Earned points (based on $ spent i.e., $1 is 1 point),     preferred payment method (cash, credit, check).
 -	System should track high traffic days / weekends and a hold fee is required i.e. July 4th will require valid credit card on system to reserve the table.
     - Notify user no show will have minimum $10 charge.
+
+## Contribute
+
+- Use `./manage.py makemigrations reservations` when making changes to the database models in `models.py`.
+- Also make sure when you're pulling new changes to migrate your local database to the development version so they can be in sync. You can do this with `./manage.py migrate`.
