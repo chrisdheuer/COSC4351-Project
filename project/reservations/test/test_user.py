@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from reservations.models import *
 
-
 class UserModelTest(TestCase):
 
     def setUp(self):
@@ -22,11 +21,9 @@ class UserModelTest(TestCase):
             diner_no = 1,
             payment_method = PaymentMethod.CASH,
         )
-        user.save()
-
+        
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
 
         self.assertEqual(1, self.User.objects.count())
-
