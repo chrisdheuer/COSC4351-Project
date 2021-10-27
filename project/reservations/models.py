@@ -43,4 +43,4 @@ class RestaurantTable(models.Model):
                 params = {'value': self.capacity}
             )
         
-        super().self.save(*args, **kwargs)
+        super().save(*args, **kwargs)
