@@ -1,5 +1,6 @@
-from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from djchoices import ChoiceItem, DjangoChoices
@@ -28,3 +29,18 @@ class RegisteredUser(AbstractUser):
     def __str__(self):
       return self.email
 
+class RestaurantTable(models.Model):
+    capacity = models.IntegerField()
+
+    def __str__(self):
+        return self.id
+
+    def save(self, *args, **kwargs):
+        if self.capacity not in (2, 4, 6, 8):
+            raise ValidationError(
+                _('Invalid field: %(value)s! Make sure table capacity is 2, 4, 6, or 8'),
+                code = 'invalid',
+                params = {'value': self.capacity}
+            )
+        
+        super().self.save(*args, **kwargs)
