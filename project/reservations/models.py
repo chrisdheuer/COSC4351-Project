@@ -27,10 +27,25 @@ class RegisteredUser(AbstractUser):
     objects = ReservationSystemUserManager()
 
     def __str__(self):
-      return self.email
+        return self.email
+  
+    def clean(self):
+        if not (self.first_name and self.last_name and self.email and self.password and self.mailing_address and self.billing_address):
+            raise ValidationError(
+                _('Required fields are empty!')
+            )
+        
+        super().clean()
 
 class RestaurantTable(models.Model):
     capacity = models.IntegerField()
+    is_reserved = models.BooleanField(default = False)
+    date_time = models.DateTimeField(null = True)
+    user_first = models.CharField(max_length = 20, null = True)
+    user_last = models.CharField(max_length = 20, null = True)
+    user_phone = models.CharField(max_length = 20, null = True)
+    user_email = models.CharField(max_length = 30, null = True)
+    num_guests = models.IntegerField(null = True)
 
     def __str__(self):
         return self.id
