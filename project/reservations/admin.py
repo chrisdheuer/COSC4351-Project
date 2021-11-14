@@ -2,8 +2,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import *
-from .models import RegisteredUser
+from .models import RegisteredUser, RestaurantTable
 
+@admin.register(RegisteredUser)
 class ReservationSystemUserAdmin(UserAdmin):
     """
     Form for creating superuser on Admin site
@@ -26,4 +27,11 @@ class ReservationSystemUserAdmin(UserAdmin):
     search_fields = ('email',)
     ordering = ('email',)
 
-admin.site.register(RegisteredUser, ReservationSystemUserAdmin)
+@admin.register(RestaurantTable)
+class RestaurantTableAdmin(admin.ModelAdmin):
+    model = RestaurantTable
+    
+    list_diplay = ('capacity')
+    fields = ['capacity']
+    search_fields = ['capacity']
+    list_filter = ['capacity']
