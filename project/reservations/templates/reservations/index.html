@@ -1,15 +1,50 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">Reservation System</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    {% load bootstrap_icons %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-    </ul>
-  </div>
-</nav>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">Reservations</a>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">{% bs_icon 'search' extra_classes="bi-valign-middle" %}</a>
+          </li>
+
+          {% if user %}
+            <li class="nav-item">
+              <a class="nav-link" href="/">{% bs_icon 'person-circle' %}</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/">Sign in</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/">Sign up</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="text-center mt-5">
+        <h1>Table Reservation System</h1>
+        <p class="lead">Register to reserve a table or continue as a guest</p>
+        <a class="btn btn-primary" href="/" role="button">Search Tables</a>
+        {% if not user %}
+          <a class="btn btn-secondary" href="/" role="button">Register</a>
+        {% endif %}
+    
+  </body>
+</html>
 
