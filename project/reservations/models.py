@@ -15,8 +15,8 @@ class PaymentMethod(DjangoChoices):
 class RegisteredUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique = True)
-    mailing_address = models.TextField()
-    billing_address = models.TextField()
+    mailing_address = models.CharField(max_length = 60)
+    billing_address = models.CharField(max_length = 60)
     diner_no = models.IntegerField(null = True)
     payment_method = models.CharField(max_length = 20, choices = PaymentMethod.choices)
     earned_points = models.IntegerField(default = 0)
