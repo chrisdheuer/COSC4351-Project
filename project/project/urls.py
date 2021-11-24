@@ -21,4 +21,5 @@ app_name = 'reservations'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('reservations.urls')),
+    path('', include('django.contrib.auth.urls')),
 ]

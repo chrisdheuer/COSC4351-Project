@@ -1,0 +1,16 @@
+<html>
+  <head>
+
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+
+    {% block title %}<title>COSC4351 Project</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    {% block content %}
+      {% comment %} Views with the block name "content" will dynamically appear here {% endcomment %}
+    {% endblock %}
+  </body>
+</html>
