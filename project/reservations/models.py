@@ -28,14 +28,6 @@ class RegisteredUser(AbstractUser):
 
     def __str__(self):
         return self.email
-  
-    def clean(self):
-        if not (self.first_name and self.last_name and self.email and self.password and self.mailing_address and self.billing_address):
-            raise ValidationError(
-                _('Required fields are empty!')
-            )
-        
-        super().clean()
 
 class RestaurantTable(models.Model):
     capacity = models.IntegerField()

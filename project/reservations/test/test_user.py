@@ -34,15 +34,3 @@ class UserModelTest(TestCase):
         
         self.assertNotEqual(user.password, 'pass')
     
-    def test_return_error_creating_a_user_with_empty_fields(self):
-        user = self.create_a_user(
-            first_name = '',
-            last_name = '',
-            email = '',
-            password = '',
-            mailing_address = '',
-            billing_address = ''
-        )
-        
-        self.assertRaises(ValidationError, user.clean)
-    
