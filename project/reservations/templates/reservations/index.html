@@ -9,8 +9,8 @@
       <h1>Table Reservation System</h1>
       <p class="lead">Register to reserve a table or continue as a guest</p>
       <a class="btn btn-primary" href="/" role="button">Search Tables</a>
-      {% if not user %}
-        <a class="btn btn-secondary" href="/signup" role="button">Register</a>
+      {% if not request.user.is_authenticated %}
+        <a class="btn btn-secondary" href="{% url 'register' %}" role="button">Register</a>
       {% endif %}
     </div>
   </div>

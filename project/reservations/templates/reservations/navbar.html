@@ -3,10 +3,7 @@
 {% block navbar %}
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Reservations</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand" href="/">COSC4351 Project</a>
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
 
       <ul class="navbar-nav">
@@ -14,24 +11,19 @@
           <a class="nav-link" href="/">{% bs_icon 'search' size='1.25rem' %}</a>
         </li>
 
-        {% if user %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="/">Sign in</a>
+            <a class="nav-link" href="{% url 'login' %}">Log In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/signup">Sign up</a>
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
           </li>
         {% endif %}
       </ul>
