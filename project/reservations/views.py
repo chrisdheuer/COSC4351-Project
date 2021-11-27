@@ -1,9 +1,11 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import DetailView
 from django.contrib import messages
 
 from .forms import UserRegistrationForm
+from .models import RegisteredUser
 
 def index(request):
     return render(request, 'reservations/index.html')
@@ -44,3 +46,8 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request, 'accounts/register.html', {'form': form})
+
+class user_profile(DetailView):
+    model = RegisteredUser
+    template_name = 'accounts/profile.html'
+    

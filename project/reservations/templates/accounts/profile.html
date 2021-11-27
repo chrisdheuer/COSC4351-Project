@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'reservations/navbar.html' %}
+
+  <div class="container my-5">
+    <div class="row">
+      <div class="col">
+        <div class="card border-secondary" style="width: 18rem;">
+          <img src="https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?fit=300%2C300" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Earned points: {{ user.earned_points }}</h6>
+            <strong>Diner #:</strong> {{ user.diner_no }}</br>
+            <strong>Mailing Address:</strong> {{ user.mailing_address }}</br>
+            <strong>Billing Address:</strong> {{ user.billing_address }}
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <h1 class="text-center">Reserved Tables</h1>
+        {% if user %} {% comment %} {% if user.table_set.count() == 0 %} {% endcomment %}
+          <h3 class="lead text-muted text-center">No reserved tables</h3>
+        {% else %}
+          <h3 class="lead text-muted">Reserved tables</h3>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

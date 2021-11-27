@@ -7,6 +7,8 @@ from djchoices import ChoiceItem, DjangoChoices
 
 from .managers import ReservationSystemUserManager
 
+import random
+
 class PaymentMethod(DjangoChoices):
     CASH = ChoiceItem('Cash')
     CREDIT = ChoiceItem('Credit')
@@ -28,6 +30,11 @@ class RegisteredUser(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    def save(self, *args, **kwargs):
+        self.diner_no = random.randint(1,10)
+        
+        super().save(*args, **kwargs)
 
 class RestaurantTable(models.Model):
     capacity = models.IntegerField()
