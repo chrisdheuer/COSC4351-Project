@@ -4,8 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import DetailView
 from django.contrib import messages
 
-from .forms import UserRegistrationForm
-from .models import RegisteredUser
+from .forms import UserRegistrationForm, ReservationForm
+from .models import RegisteredUser, Reservation
 
 def index(request):
     return render(request, 'reservations/index.html')
@@ -50,4 +50,21 @@ def register(request):
 class user_profile(DetailView):
     model = RegisteredUser
     template_name = 'accounts/profile.html'
+
+def search_table(request):
+    if request.method == 'POST':
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            phone_number = form.cleaned_data.get('phone_number')
+            email_address = form.cleaned_data.get('email_address')
+            number_of_guests = form.cleaned_data.get('number_of_guests')
+            reservation_time = form.cleaned_data.get('reservation_time')
+            
+            reservation = Reservation(first_name = first_name, last_name = last_name, phone_number = phone_number, email_address = email_address, number_of_guests = number_of_guests, reservation_time = reservation_time)
+            reservation.save()
+        
+    form = ReservationForm()
     
+    return render(request, 'reservations/search_table.html', {'form':form})
