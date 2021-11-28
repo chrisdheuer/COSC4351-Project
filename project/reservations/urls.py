@@ -8,5 +8,5 @@ urlpatterns = [
   path('login/', views.login_request, name = 'login'),
   path('logout/', views.logout_request, name = 'logout'),
   path('profile/<int:pk>', views.user_profile.as_view(), name = 'profile'),
-  path('search_table', views.search_table, name = 'search_table'),
+  path('make_reservation', views.make_reservation, name = 'make_reservation'),
 ]

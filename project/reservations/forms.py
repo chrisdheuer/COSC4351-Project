@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import RegisteredUser, Reservation
+from .models import RegisteredUser, Reservation, RestaurantTable
 
 class ReservationSystemAdminCreationForm(UserCreationForm):
 
@@ -28,5 +28,9 @@ class UserRegistrationForm(UserCreationForm):
 class ReservationForm(ModelForm):
   class Meta:
     model = Reservation
-    fields = '__all__'
+    fields = ('table', 'first_name', 'last_name', 'email_address', 'phone_number')
+    
+    def __init__(self, *args, **kwargs):
+      super().__init__(*args, **kwargs)
+      self.fields['table'].queryset = RestaurantTable.objects.filter(is_reserved=False)
   

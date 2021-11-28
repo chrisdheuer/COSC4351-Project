@@ -41,5 +41,5 @@ class RestaurantTableAdmin(admin.ModelAdmin):
 class ReservationAdmin(admin.ModelAdmin):
     model = Reservation
     
-    list_display = ('first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time')
-    fields = ['first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time']
+    list_display = ('table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time')
+    fields = ['table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time']
