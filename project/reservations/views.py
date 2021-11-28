@@ -4,11 +4,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import DetailView
 from django.contrib import messages
 
-from .forms import UserRegistrationForm
-from .models import RegisteredUser
+from .forms import UserRegistrationForm, ReservationForm
+from .models import RegisteredUser, Reservation, RestaurantTable
 
 def index(request):
-    return render(request, 'reservations/index.html')
+    print(request)
+    
+    return render(request, 'reservations/index.html', request.GET)
 
 def login_request(request):
     if request.method == 'POST':
@@ -50,4 +52,27 @@ def register(request):
 class user_profile(DetailView):
     model = RegisteredUser
     template_name = 'accounts/profile.html'
+
+def make_reservation(request):
+    print(request.GET)
     
+    if request.method == 'POST':
+        number_of_guests = request.GET['number_of_guests']
+        reservation_time = request.GET['date'] + ' ' + request.GET['time']
+        
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            table = form.cleaned_data.get('table')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            phone_number = form.cleaned_data.get('phone_number')
+            email_address = form.cleaned_data.get('email_address')
+            
+            reservation = Reservation(table = table, first_name = first_name, last_name = last_name, phone_number = phone_number, email_address = email_address, number_of_guests = number_of_guests, reservation_time = reservation_time)
+            reservation.save()
+            
+            return redirect('index')
+    else:
+        form = ReservationForm()
+    
+    return render(request, 'reservations/make_reservation.html', {'form':form})

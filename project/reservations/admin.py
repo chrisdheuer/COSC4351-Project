@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import *
-from .models import RegisteredUser, RestaurantTable
+from .models import RegisteredUser, RestaurantTable, Reservation
 
 @admin.register(RegisteredUser)
 class ReservationSystemUserAdmin(UserAdmin):
@@ -32,6 +32,14 @@ class RestaurantTableAdmin(admin.ModelAdmin):
     model = RestaurantTable
     
     list_diplay = ('capacity')
-    fields = ['capacity']
+    fields = ['table_num', 'capacity']
     search_fields = ['capacity']
     list_filter = ['capacity']
+
+
+@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    model = Reservation
+    
+    list_display = ('table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time')
+    fields = ['table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time']

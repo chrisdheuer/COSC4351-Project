@@ -1,7 +1,8 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import RegisteredUser
+from .models import RegisteredUser, Reservation, RestaurantTable
 
 class ReservationSystemAdminCreationForm(UserCreationForm):
 
@@ -23,3 +24,13 @@ class UserRegistrationForm(UserCreationForm):
   class Meta:
     model = RegisteredUser
     fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'mailing_address', 'billing_address', 'payment_method')
+    
+class ReservationForm(ModelForm):
+  class Meta:
+    model = Reservation
+    fields = ('table', 'first_name', 'last_name', 'email_address', 'phone_number')
+    
+    def __init__(self, *args, **kwargs):
+      super().__init__(*args, **kwargs)
+      self.fields['table'].queryset = RestaurantTable.objects.filter(is_reserved=False)
+  
