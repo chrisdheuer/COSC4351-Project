@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_bootstrap_icons',
     'crispy_forms',
+    'datetimepicker'
 ]
 
 # Tell crispy forms to use bootstrap4

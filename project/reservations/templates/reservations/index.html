@@ -8,36 +8,18 @@
       <h1>Table Reservation System</h1>
 
       {% if not request.user.is_authenticated %}
-      <p class="lead">Register to reserve a table or continue as a guest</p>
+        <p class="lead">Register to reserve a table or continue as a guest</p>
       {% endif  %}
-      <form action="{% url 'make_reservation' %}" method="get", >
-      {% csrf_token %}
-        <div>Number of Guests: 
-          <select name="number_of_guests">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-        </div><br>
 
-        <div class="date-title">
-          <p>Pick a date &amp; time<p>
-        </div>
-        <div class="date_picker">
-          <input type="date" name="date" placeholder="mm/dd/yyyy" style="text-align:center;">
-          <input type="time" name="time" placeholder="00:00"/>
-        </div><br>
+      <form action="{% url 'tables'  %}" method="POST">
+        {% csrf_token %}
+        Number of guests:
+        <select name="number_of_guests">
+          {% for i in selection %}
+            <option value="{{ i }}">{{ i }}</option>
+          {% endfor %}
+        </select>
         <button type="submit" class="btn btn-primary">Search Tables</button>
-        {% comment %} <a type="submit" class="btn btn-primary" href="{% url 'make_reservation' %}" role="button">Search Tables</a> {% endcomment %}
       </form>
 
       {% if not request.user.is_authenticated %}

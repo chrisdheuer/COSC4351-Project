@@ -20,10 +20,14 @@
       </div>
       <div class="col-6">
         <h1 class="text-center">Reserved Tables</h1>
-        {% if user %} {% comment %} {% if user.table_set.count() == 0 %} {% endcomment %}
+        {% if user.reservation_set.count == 0 %}
           <h3 class="lead text-muted text-center">No reserved tables</h3>
         {% else %}
-          <h3 class="lead text-muted">Reserved tables</h3>
+          {% for i in user.reservation_set.objects.all %}
+            {% for j in i.restauranttable_set.objects.all %}
+              <h3 class="lead text-muted">Table #{{ j.id }} at {{ i.reservation_time }}</h3>
+            {% endfor %}
+          {% endfor %}
         {% endif %}
       </div>
     </div>

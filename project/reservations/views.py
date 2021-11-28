@@ -1,16 +1,16 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import DetailView
 from django.contrib import messages
 
-from .forms import UserRegistrationForm, ReservationForm
+from .forms import GuestReservationForm, UserRegistrationForm, GuestReservationForm, RegisteredReservationForm
 from .models import RegisteredUser, Reservation, RestaurantTable
 
 def index(request):
-    print(request)
+    selection = range(1,13)
     
-    return render(request, 'reservations/index.html', request.GET)
+    return render(request, 'reservations/index.html', {'selection':selection})
 
 def login_request(request):
     if request.method == 'POST':
@@ -52,27 +52,52 @@ def register(request):
 class user_profile(DetailView):
     model = RegisteredUser
     template_name = 'accounts/profile.html'
+    
+def available_tables(request):
+    tables = RestaurantTable.objects.filter(
+        is_reserved = False,
+        capacity__gte = request.POST['number_of_guests']
+    )
+            
+    if not tables:
+        cap = 0
+        ids = []
+        
+        for i in RestaurantTable.objects.all():
+            if cap + i.capacity <= int(request.POST['number_of_guests']):
+                cap += i.capacity
+                ids.append(i.id)
+        
+        tables = RestaurantTable.objects.filter(id__in = ids)
+    
+    return render(request, 'reservations/table_list.html', {'tables': tables})
+        
 
-def make_reservation(request):
-    print(request.GET)
+def reserve_table(request):
+    
+    print(request.user.is_authenticated, request.method, request.GET)
     
     if request.method == 'POST':
         number_of_guests = request.GET['number_of_guests']
-        reservation_time = request.GET['date'] + ' ' + request.GET['time']
         
-        form = ReservationForm(request.POST)
+        form = RegisteredReservationForm(request.POST) if request.user.is_authenticated else GuestReservationForm(request.POST)
         if form.is_valid():
-            table = form.cleaned_data.get('table')
-            first_name = form.cleaned_data.get('first_name')
-            last_name = form.cleaned_data.get('last_name')
-            phone_number = form.cleaned_data.get('phone_number')
-            email_address = form.cleaned_data.get('email_address')
-            
-            reservation = Reservation(table = table, first_name = first_name, last_name = last_name, phone_number = phone_number, email_address = email_address, number_of_guests = number_of_guests, reservation_time = reservation_time)
-            reservation.save()
-            
-            return redirect('index')
+            if request.user.is_authenticated:
+                request.user.reservation_set.create(
+                    first_name = request.user.first_name,
+                    last_name = request.user.last_name,
+                    email_address = request.user.email,
+                    phone_number = request.user.phone_no,
+                    number_of_guests = number_of_guests,
+                    reservation_time = form.cleaned_data('reservation_time')
+                )
+                
+                return redirect('profile')
+            else:
+                form.save()
+                
+                return redirect('index')
     else:
-        form = ReservationForm()
+        form = GuestReservationForm()
     
-    return render(request, 'reservations/make_reservation.html', {'form':form})
+    return render(request, 'reservations/reserve_table.html', {'form':form})

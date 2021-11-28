@@ -8,5 +8,6 @@ urlpatterns = [
   path('login/', views.login_request, name = 'login'),
   path('logout/', views.logout_request, name = 'logout'),
   path('profile/<int:pk>', views.user_profile.as_view(), name = 'profile'),
-  path('make_reservation', views.make_reservation, name = 'make_reservation'),
+  path('tables/', views.available_tables, name = 'tables'),
+  path('reserve/', views.reserve_table, name = 'reserve'),
 ]

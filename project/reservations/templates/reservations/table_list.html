@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {% include './navbar.html' %}
+
+  <div class="container text-center my-5">
+    <h1>Available Tables</h1>
+    <div class="row row-cols-2 row-cols-md-4 g-4">
+      {% for table in tables %}
+        <div class="card w-50">
+          <div class="card-body">
+            <h5 class="card-title">Table #{{ table.table_no }}</h5>
+            <h5 class="card-subtitle mb-2 text-muted">Capacity: {{ table.capacity }}</h5>
+            <a class="btn btn-primary" href="{% url 'reserve' %}" role="button">Reserve</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

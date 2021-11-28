@@ -37,9 +37,9 @@ class RestaurantTableAdmin(admin.ModelAdmin):
     list_filter = ['capacity']
 
 
-@admin.register(Reservation)
-class ReservationAdmin(admin.ModelAdmin):
-    model = Reservation
+# @admin.register(Reservation)
+# class ReservationAdmin(admin.ModelAdmin):
+#     model = Reservation
     
-    list_display = ('table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time')
-    fields = ['table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time']
+#     list_display = ('table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time')
+#     fields = ['table', 'first_name', 'last_name', 'email_address', 'phone_number', 'number_of_guests', 'reservation_time']
