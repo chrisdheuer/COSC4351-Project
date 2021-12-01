@@ -11,7 +11,7 @@
         <p class="lead">Register to reserve a table or continue as a guest</p>
       {% endif  %}
 
-      <form action="{% url 'tables'  %}" method="POST">
+      <form action="{% url 'tables'  %}" method="GET">
         {% csrf_token %}
         Number of guests:
         <select name="number_of_guests">

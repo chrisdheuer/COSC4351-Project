@@ -54,9 +54,11 @@ class user_profile(DetailView):
     template_name = 'accounts/profile.html'
     
 def available_tables(request):
+    num_guests = int(request.GET['number_of_guests'])
+    
     tables = RestaurantTable.objects.filter(
         is_reserved = False,
-        capacity__gte = request.POST['number_of_guests']
+        capacity__gte = num_guests
     )
             
     if not tables:
@@ -64,40 +66,47 @@ def available_tables(request):
         ids = []
         
         for i in RestaurantTable.objects.all():
-            if cap + i.capacity <= int(request.POST['number_of_guests']):
+            if cap + i.capacity <= num_guests:
                 cap += i.capacity
                 ids.append(i.id)
         
-        tables = RestaurantTable.objects.filter(id__in = ids)
+        tables = RestaurantTable.objects.filter(id__in = ids) if cap >= num_guests else None
     
-    return render(request, 'reservations/table_list.html', {'tables': tables})
+    return render(request, 'reservations/table_list.html', {
+            'tables': tables,
+            'num_guests': num_guests,
+    })
         
 
-def reserve_table(request):
+def reserve_table(request, id):
+    table = RestaurantTable.objects.get(pk = id)
     
-    print(request.user.is_authenticated, request.method, request.GET)
+    print(request.user.is_authenticated, request.method, request.GET, request.POST)
     
     if request.method == 'POST':
-        number_of_guests = request.GET['number_of_guests']
+        # number_of_guests = request.GET['number_of_guests']
         
         form = RegisteredReservationForm(request.POST) if request.user.is_authenticated else GuestReservationForm(request.POST)
         if form.is_valid():
+            reservation = form.save()
+            print(reservation)
             if request.user.is_authenticated:
                 request.user.reservation_set.create(
                     first_name = request.user.first_name,
                     last_name = request.user.last_name,
                     email_address = request.user.email,
                     phone_number = request.user.phone_no,
-                    number_of_guests = number_of_guests,
+                    number_of_guests = 2,
                     reservation_time = form.cleaned_data('reservation_time')
                 )
                 
                 return redirect('profile')
-            else:
-                form.save()
-                
-                return redirect('index')
+            
+            form.save()
+            
+            return redirect('index')
     else:
+        print('else')
         form = GuestReservationForm()
     
     return render(request, 'reservations/reserve_table.html', {'form':form})

@@ -9,5 +9,5 @@ urlpatterns = [
   path('logout/', views.logout_request, name = 'logout'),
   path('profile/<int:pk>', views.user_profile.as_view(), name = 'profile'),
   path('tables/', views.available_tables, name = 'tables'),
-  path('reserve/', views.reserve_table, name = 'reserve'),
+  path('reserve/<int:id>', views.reserve_table, name = 'reserve'),
 ]
