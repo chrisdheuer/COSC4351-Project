@@ -14,18 +14,9 @@
       {% csrf_token %}
         <div>Number of Guests: 
           <select name="number_of_guests">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
+            {% for i in selections %}
+              <option value={{ i }}>{{ i }}</option>
+            {% endfor %}
           </select>
         </div><br>
 
@@ -37,7 +28,6 @@
           <input type="time" name="time" placeholder="00:00"/>
         </div><br>
         <button type="submit" class="btn btn-primary">Search Tables</button>
-        {% comment %} <a type="submit" class="btn btn-primary" href="{% url 'make_reservation' %}" role="button">Search Tables</a> {% endcomment %}
       </form>
 
       {% if not request.user.is_authenticated %}

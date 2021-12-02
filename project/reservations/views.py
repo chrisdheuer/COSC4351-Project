@@ -1,16 +1,14 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import DetailView
 from django.contrib import messages
 
 from .forms import UserRegistrationForm, ReservationForm
-from .models import RegisteredUser, Reservation, RestaurantTable
+from .models import RegisteredUser, Reservation
 
 def index(request):
-    print(request)
-    
-    return render(request, 'reservations/index.html', request.GET)
+    return render(request, 'reservations/index.html', {'selections': range(1,13)})
 
 def login_request(request):
     if request.method == 'POST':
@@ -54,8 +52,6 @@ class user_profile(DetailView):
     template_name = 'accounts/profile.html'
 
 def make_reservation(request):
-    print(request.GET)
-    
     if request.method == 'POST':
         number_of_guests = request.GET['number_of_guests']
         reservation_time = request.GET['date'] + ' ' + request.GET['time']
@@ -71,8 +67,11 @@ def make_reservation(request):
             table.is_reserved = True
             table.save()
             reservation = Reservation(table = table, first_name = first_name, last_name = last_name, phone_number = phone_number, email_address = email_address, number_of_guests = number_of_guests, reservation_time = reservation_time)
-            reservation.save()
+
+            if request.user.is_authenticated:
+                request.user.reservation_set.add(reservation)
             
+            reservation.save()
             return redirect('index')
     else:
         form = ReservationForm()

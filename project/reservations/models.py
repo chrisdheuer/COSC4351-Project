@@ -1,8 +1,6 @@
 from django.core.exceptions import ValidationError
-from django.db.models.fields import AutoField
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
-from django.contrib import admin
 from django.db import models
 
 from djchoices import ChoiceItem, DjangoChoices
@@ -50,7 +48,7 @@ class RestaurantTable(models.Model):
     num_guests = models.IntegerField(null = True)
 
     def __str__(self):
-        return f'Table {self.id} with capacity {self.capacity} is reserved: {self.is_reserved}'
+        return f'Table {self.id} with capacity {self.capacity}'
 
     def save(self, *args, **kwargs):
         if self.capacity not in (2, 4, 6, 8):
@@ -63,7 +61,7 @@ class RestaurantTable(models.Model):
         super().save(*args, **kwargs)
         
 class Reservation(models.Model):
-    registered_user = models.ForeignKey(RegisteredUser, null = True, on_delete = models.SET_NULL)
+    registered_user = models.ForeignKey(RegisteredUser, null = True, blank = True, on_delete = models.SET_NULL)
     table = models.ForeignKey(RestaurantTable, null = True, on_delete = models.SET_NULL, limit_choices_to = {'is_reserved': False})
     first_name = models.CharField(max_length = 20)
     last_name = models.CharField(max_length = 20)
