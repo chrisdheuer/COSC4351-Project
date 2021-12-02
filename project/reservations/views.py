@@ -68,10 +68,10 @@ def make_reservation(request):
             table.save()
             reservation = Reservation(table = table, first_name = first_name, last_name = last_name, phone_number = phone_number, email_address = email_address, number_of_guests = number_of_guests, reservation_time = reservation_time)
 
+            reservation.save()
             if request.user.is_authenticated:
                 request.user.reservation_set.add(reservation)
             
-            reservation.save()
             return redirect('index')
     else:
         form = ReservationForm()
