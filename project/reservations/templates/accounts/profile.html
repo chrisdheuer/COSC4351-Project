@@ -20,7 +20,7 @@
       </div>
       <div class="col-6">
         <h1 class="text-center">Reserved Tables</h1>
-        {% if user %} {% comment %} {% if user.table_set.count() == 0 %} {% endcomment %}
+        {% if user.reservation_set.count == 0%}
           <h3 class="lead text-muted text-center">No reserved tables</h3>
         {% else %}
           <h3 class="lead text-muted">Reserved tables</h3>

@@ -68,6 +68,8 @@ def make_reservation(request):
             phone_number = form.cleaned_data.get('phone_number')
             email_address = form.cleaned_data.get('email_address')
             
+            table.is_reserved = True
+            table.save()
             reservation = Reservation(table = table, first_name = first_name, last_name = last_name, phone_number = phone_number, email_address = email_address, number_of_guests = number_of_guests, reservation_time = reservation_time)
             reservation.save()
             

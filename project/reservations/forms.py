@@ -29,8 +29,3 @@ class ReservationForm(ModelForm):
   class Meta:
     model = Reservation
     fields = ('table', 'first_name', 'last_name', 'email_address', 'phone_number')
-    
-    def __init__(self, *args, **kwargs):
-      super().__init__(*args, **kwargs)
-      self.fields['table'].queryset = RestaurantTable.objects.filter(is_reserved=False)
-  

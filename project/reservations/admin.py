@@ -32,7 +32,7 @@ class RestaurantTableAdmin(admin.ModelAdmin):
     model = RestaurantTable
     
     list_diplay = ('capacity')
-    fields = ['table_num', 'capacity']
+    fields = ['id', 'capacity', 'is_reserved']
     search_fields = ['capacity']
     list_filter = ['capacity']
 
